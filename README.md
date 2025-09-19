@@ -1,73 +1,90 @@
-# Welcome to your Lovable project
+# Byte Sentinel - Ransomware Detection System
 
-## Project info
+A comprehensive ransomware detection system using machine learning to analyze system files and detect potential threats.
 
-**URL**: https://lovable.dev/projects/aee347fc-b9bc-4860-a7fb-c1dc4577c46b
+## Features
 
-## How can I edit this code?
+- **Real-time System Scanning**: Scan your system files for ransomware indicators
+- **Machine Learning Detection**: Uses XGBoost and Random Forest models for accurate detection
+- **Advanced File Analysis**: Analyzes file entropy, API calls, and behavioral patterns
+- **Web Interface**: Modern React frontend with real-time scanning progress
+- **REST API**: Python Flask backend for integration with other tools
 
-There are several ways of editing your application.
+## Quick Start
 
-**Use Lovable**
+### Prerequisites
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/aee347fc-b9bc-4860-a7fb-c1dc4577c46b) and start prompting.
+- Python 3.8 or higher
+- Node.js 16 or higher
+- npm or yarn
 
-Changes made via Lovable will be committed automatically to this repo.
+### Installation
 
-**Use your preferred IDE**
+1. **Set up Python Backend**
+   ```bash
+   cd backend
+   pip install -r ../requirements.txt
+   python train_models.py  # Train the ML models (optional - will auto-train if missing)
+   python app.py          # Start the backend server
+   ```
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+2. **Set up React Frontend**
+   ```bash
+   # In a new terminal
+   npm install
+   npm run dev
+   ```
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+3. **Access the Application**
+   - Frontend: http://localhost:5173
+   - Backend API: http://localhost:5000
 
-Follow these steps:
+## Usage
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+### Web Interface
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+1. Open your browser to http://localhost:5173
+2. The system will automatically check backend connectivity
+3. Click "Quick Scan" to scan critical system areas
+4. Click "Full Scan" for comprehensive system analysis
+5. View detailed results in the "Scan Results" tab
+6. Use the "Predict" tab to analyze individual files
 
-# Step 3: Install the necessary dependencies.
-npm i
+## Architecture
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+### Backend (Python)
+- **Flask API**: REST endpoints for scanning and prediction
+- **Machine Learning**: XGBoost and Random Forest models
+- **File Scanner**: Advanced analysis of file characteristics
+- **Process Monitor**: Detection of suspicious system behavior
 
-**Edit a file directly in GitHub**
+### Frontend (React)
+- **Modern UI**: Built with shadcn/ui components
+- **Real-time Updates**: Live scan progress and results
+- **Interactive Charts**: Model performance visualization
+- **Responsive Design**: Works on desktop and mobile
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Detection Methods
 
-**Use GitHub Codespaces**
+### Static Analysis
+- **File Entropy**: High entropy indicates possible encryption
+- **API Calls**: Detection of suspicious system calls
+- **PE Structure**: Analysis of executable file format
+- **Digital Signatures**: Verification of file authenticity
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### Behavioral Analysis
+- **Process Monitoring**: Detection of ransomware-like behavior
+- **File System Changes**: Monitoring for mass encryption
 
-## What technologies are used for this project?
+### Machine Learning Features
+- File size and structure metrics
+- Import/export function counts
+- Resource and section analysis
+- Entropy and packing detection
 
-This project is built with:
+## Security Considerations
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/aee347fc-b9bc-4860-a7fb-c1dc4577c46b) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+- **Safe Analysis**: No malware execution - only static analysis
+- **Privacy**: All analysis is performed locally
+- **Isolated Environment**: Backend runs in controlled environment
+- **Minimal Permissions**: Only reads necessary file metadata
