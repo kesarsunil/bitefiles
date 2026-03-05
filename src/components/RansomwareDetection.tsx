@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,19 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Shield, Target, BarChart3, Brain, AlertTriangle, CheckCircle, Scan, RefreshCw, AlertCircle, Play, Square } from "lucide-react";
+import { gsap } from "gsap";
+import { motion, AnimatePresence } from "framer-motion";
+import { WebGLBackground } from "./WebGLBackground";
+import { FloatingShapes } from "./FloatingShapes";
+import { PremiumCard3D } from "./PremiumCard3D";
+import { AnimatedStat } from "./AnimatedStat";
+import { GlowButton } from "./GlowButton";
+import { CyberGrid } from "./CyberGrid";
+import { MatrixRain } from "./MatrixRain";
+import { Scanlines } from "./Scanlines";
+import { HexagonPattern } from "./HexagonPattern";
+import { GlitchText } from "./GlitchText";
+import { NeonCard } from "./NeonCard";
 
 // Backend API configuration
 const API_BASE_URL = 'http://localhost:5000/api';
@@ -99,39 +112,169 @@ const ConfusionMatrix = ({ model }: { model: 'randomForest' | 'xgboost' }) => {
   
   return (
     <div className="grid grid-cols-2 gap-2 w-fit mx-auto">
-      <div className="text-xs text-muted-foreground col-span-2 text-center mb-2">Predicted</div>
-      <div className="text-xs text-muted-foreground rotate-90 text-center">Actual</div>
+      <div 
+        className="text-xs col-span-2 text-center mb-2 font-medium"
+        style={{
+          color: '#ffffff',
+        }}
+      >
+        PREDICTED
+      </div>
+      <div 
+        className="text-xs rotate-90 text-center font-medium"
+        style={{
+          color: '#ffffff',
+        }}
+      >
+        ACTUAL
+      </div>
       <div></div>
       
-      <div className="bg-cyber-green/20 p-4 rounded border border-cyber-green/30 text-center">
-        <div className="text-2xl font-bold text-cyber-green">{data[0][0]}</div>
-        <div className="text-xs text-muted-foreground">True Negative</div>
+      <div 
+        className="p-4 rounded border text-center backdrop-blur"
+        style={{
+          background: 'rgba(255, 255, 255, 0.15)',
+          borderColor: 'rgba(255, 255, 255, 0.5)',
+          boxShadow: '0 0 15px rgba(255, 255, 255, 0.2)',
+        }}
+      >
+        <div 
+          className="text-2xl font-bold"
+          style={{
+            color: '#ffffff',
+          }}
+        >
+          {data[0][0]}
+        </div>
+        <div 
+          className="text-xs"
+          style={{
+            color: '#ffffff',
+            opacity: 0.9,
+          }}
+        >
+          True Negative
+        </div>
       </div>
-      <div className="bg-destructive/20 p-4 rounded border border-destructive/30 text-center">
-        <div className="text-2xl font-bold text-destructive">{data[0][1]}</div>
-        <div className="text-xs text-muted-foreground">False Positive</div>
+      <div 
+        className="p-4 rounded border text-center backdrop-blur"
+        style={{
+          background: 'rgba(255, 0, 0, 0.15)',
+          borderColor: 'rgba(255, 0, 0, 0.5)',
+          boxShadow: '0 0 15px rgba(255, 0, 0, 0.2)',
+        }}
+      >
+        <div 
+          className="text-2xl font-bold"
+          style={{
+            color: '#ffffff',
+            textShadow: '0 0 20px rgba(255, 0, 0, 0.6)',
+          }}
+        >
+          {data[0][1]}
+        </div>
+        <div 
+          className="text-xs"
+          style={{
+            color: '#ffffff',
+            opacity: 0.9,
+            textShadow: '0 0 10px rgba(255, 0, 0, 0.3)',
+          }}
+        >
+          False Positive
+        </div>
       </div>
       
-      <div className="bg-destructive/20 p-4 rounded border border-destructive/30 text-center">
-        <div className="text-2xl font-bold text-destructive">{data[1][0]}</div>
-        <div className="text-xs text-muted-foreground">False Negative</div>
+      <div 
+        className="p-4 rounded border text-center backdrop-blur"
+        style={{
+          background: 'rgba(255, 0, 0, 0.15)',
+          borderColor: 'rgba(255, 0, 0, 0.5)',
+          boxShadow: '0 0 15px rgba(255, 0, 0, 0.2)',
+        }}
+      >
+        <div 
+          className="text-2xl font-bold"
+          style={{
+            color: '#ffffff',
+            textShadow: '0 0 20px rgba(255, 0, 0, 0.6)',
+          }}
+        >
+          {data[1][0]}
+        </div>
+        <div 
+          className="text-xs"
+          style={{
+            color: '#ffffff',
+            opacity: 0.9,
+            textShadow: '0 0 10px rgba(255, 0, 0, 0.3)',
+          }}
+        >
+          False Negative
+        </div>
       </div>
-      <div className="bg-cyber-green/20 p-4 rounded border border-cyber-green/30 text-center">
-        <div className="text-2xl font-bold text-cyber-green">{data[1][1]}</div>
-        <div className="text-xs text-muted-foreground">True Positive</div>
+      <div 
+        className="p-4 rounded border text-center backdrop-blur"
+        style={{
+          background: 'rgba(255, 255, 255, 0.15)',
+          borderColor: 'rgba(255, 255, 255, 0.5)',
+          boxShadow: '0 0 15px rgba(255, 255, 255, 0.2)',
+        }}
+      >
+        <div 
+          className="text-2xl font-bold"
+          style={{
+            color: '#ffffff',
+          }}
+        >
+          {data[1][1]}
+        </div>
+        <div 
+          className="text-xs"
+          style={{
+            color: '#ffffff',
+            opacity: 0.9,
+          }}
+        >
+          True Positive
+        </div>
       </div>
     </div>
   );
 };
 
 const MetricCard = ({ title, value, isPercentage = true }: { title: string; value: number; isPercentage?: boolean }) => (
-  <Card className="border-primary/20 bg-card/50 backdrop-blur">
-    <CardContent className="p-4">
-      <div className="text-2xl font-bold text-primary">
+  <Card 
+    className="backdrop-blur border-2 overflow-hidden relative"
+    style={{
+      background: 'rgba(13, 13, 13, 0.85)',
+      borderColor: 'rgba(255, 255, 255, 0.5)',
+      boxShadow: '0 0 20px rgba(255, 255, 255, 0.2), inset 0 0 20px rgba(255, 255, 255, 0.05)',
+    }}
+  >
+    <CardContent className="p-4 relative z-10">
+      <div 
+        className="text-2xl font-bold"
+        style={{
+          color: '#ffffff',
+        }}
+      >
         {isPercentage ? `${(value * 100).toFixed(1)}%` : value.toFixed(3)}
       </div>
-      <div className="text-sm text-muted-foreground">{title}</div>
+      <div 
+        className="text-sm font-medium"
+        style={{
+          color: '#ffffff',
+        }}
+      >
+        {title}
+      </div>
     </CardContent>
+    {/* Corner accents */}
+    <div className="absolute top-0 left-0 w-2 h-2 border-t-2 border-l-2 border-white" />
+    <div className="absolute top-0 right-0 w-2 h-2 border-t-2 border-r-2 border-white" />
+    <div className="absolute bottom-0 left-0 w-2 h-2 border-b-2 border-l-2 border-white" />
+    <div className="absolute bottom-0 right-0 w-2 h-2 border-b-2 border-r-2 border-white" />
   </Card>
 );
 
@@ -140,11 +283,40 @@ const FeatureImportance = () => (
     {topFeatures.map((feature, index) => (
       <div key={feature.name} className="space-y-1">
         <div className="flex justify-between items-center">
-          <span className="text-sm font-medium">{feature.name}</span>
-          <span className="text-xs text-muted-foreground">{(feature.importance * 100).toFixed(1)}%</span>
+          <span 
+            className="text-sm font-medium"
+            style={{
+              color: '#ffffff',
+            }}
+          >
+            {feature.name}
+          </span>
+          <span 
+            className="text-xs"
+            style={{
+              color: '#ffffff',
+              opacity: 0.9,
+            }}
+          >
+            {(feature.importance * 100).toFixed(1)}%
+          </span>
         </div>
-        <Progress value={feature.importance * 100} className="h-2" />
-        <div className="text-xs text-muted-foreground">{feature.description}</div>
+        <Progress 
+          value={feature.importance * 100} 
+          className="h-2"
+          style={{
+            background: 'rgba(0, 26, 0, 0.5)',
+          }}
+        />
+        <div 
+          className="text-xs"
+          style={{
+            color: '#ffffff',
+            opacity: 0.8,
+          }}
+        >
+          {feature.description}
+        </div>
       </div>
     ))}
   </div>
@@ -460,103 +632,221 @@ export const RansomwareDetection = () => {
     ? scanStatus.results.filter(result => result.threat_level === selectedThreatLevel)
     : scanStatus.results;
 
+  const headerRef = useRef<HTMLDivElement>(null);
+  const shieldRef = useRef<SVGSVGElement>(null);
+
+  useEffect(() => {
+    if (shieldRef.current) {
+      gsap.to(shieldRef.current, {
+        rotation: 360,
+        duration: 20,
+        repeat: -1,
+        ease: "none",
+      });
+    }
+
+    if (headerRef.current) {
+      gsap.fromTo(
+        headerRef.current,
+        { opacity: 0, y: -50 },
+        { opacity: 1, y: 0, duration: 1.2, ease: "power3.out" }
+      );
+    }
+  }, []);
+
   return (
-    <div className="min-h-screen bg-background p-6">
-      <div className="max-w-7xl mx-auto space-y-6">
-        {/* Header */}
-        <div className="text-center space-y-4">
-          <div className="flex items-center justify-center gap-3">
-            <Shield className="h-8 w-8 text-primary" />
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-cyber-cyan bg-clip-text text-transparent">
-              Ransomware Detection System
-            </h1>
+    <div className="min-h-screen bg-background p-6 relative overflow-hidden">
+      {/* Cyberpunk Background Layers */}
+      <WebGLBackground />
+      <CyberGrid />
+      <MatrixRain />
+      <FloatingShapes />
+      <HexagonPattern />
+      <Scanlines />
+      
+      <div className="max-w-7xl mx-auto space-y-8 relative z-10">
+        {/* Cyberpunk Header */}
+        <motion.div
+          ref={headerRef}
+          initial={{ opacity: 0, y: -60, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 1, ease: "easeOut" }}
+          className="text-center space-y-6"
+        >
+          <div className="flex items-center justify-center gap-4">
+            <motion.div
+              animate={{
+                rotate: [0, 360],
+                scale: [1, 1.15, 1],
+              }}
+              transition={{
+                rotate: { duration: 20, repeat: Infinity, ease: "linear" },
+                scale: { duration: 2.5, repeat: Infinity, ease: "easeInOut" },
+              }}
+              className="relative"
+            >
+              <div className="absolute inset-0 bg-white/40 rounded-full blur-3xl" 
+                   style={{ 
+                     boxShadow: '0 0 60px rgba(255, 255, 255, 0.6), 0 0 100px rgba(255, 255, 255, 0.4)',
+                     animation: 'neonPulse 2s ease-in-out infinite'
+                   }} />
+              <Shield ref={shieldRef} className="h-16 w-16 text-white relative z-10" 
+                     style={{ filter: 'drop-shadow(0 0 10px rgba(255, 255, 255, 0.8))' }} />
+            </motion.div>
+            <GlitchText className="text-6xl font-bold tracking-tight">
+              <h1 className="text-white">
+                Ransomware Detection System
+              </h1>
+            </GlitchText>
           </div>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4, duration: 0.8 }}
+            className="text-white text-xl max-w-3xl mx-auto font-medium"
+          >
             Advanced machine learning system for detecting ransomware using static analysis features
-          </p>
+          </motion.p>
           
           {/* Backend Status */}
-          <div className="flex items-center justify-center gap-2">
-            <div className={`w-2 h-2 rounded-full ${backendConnected ? 'bg-green-500' : 'bg-yellow-500'}`}></div>
-            <span className="text-sm text-muted-foreground">
-              {backendConnected ? 'Backend Connected' : 'Demo Mode (Backend Offline)'}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.6, duration: 0.5 }}
+            className="flex items-center justify-center gap-3"
+          >
+            <motion.div
+              animate={{
+                scale: [1, 1.3, 1],
+                opacity: [1, 0.6, 1],
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+              className={`w-3 h-3 rounded-full ${backendConnected ? 'bg-white shadow-lg shadow-white/50' : 'bg-red-400 shadow-lg shadow-red-400/50'}`}
+              style={{ 
+                boxShadow: backendConnected 
+                  ? '0 0 20px rgba(255,255,255,0.8)' 
+                  : '0 0 20px rgba(255,0,0,0.8)' 
+              }}
+            />
+            <span className="text-base font-semibold"
+                  style={{ 
+                    color: '#ffffff',
+                  }}>
+              {backendConnected ? '✓ BACKEND CONNECTED' : '⚠ DEMO MODE (BACKEND OFFLINE)'}
             </span>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
-        {/* System Info Card */}
+        {/* System Info with Cyberpunk AnimatedStat */}
         {systemInfo && (
-          <Card className="border-primary/20 bg-card/50 backdrop-blur">
-            <CardContent className="p-4">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-                <div>
-                  <div className="text-lg font-bold">{systemInfo.cpu_count}</div>
-                  <div className="text-xs text-muted-foreground">CPU Cores</div>
-                </div>
-                <div>
-                  <div className="text-lg font-bold">{Math.round(systemInfo.memory_available / 1024 / 1024 / 1024)}GB</div>
-                  <div className="text-xs text-muted-foreground">Available RAM</div>
-                </div>
-                <div>
-                  <div className="text-lg font-bold">{systemInfo.running_processes}</div>
-                  <div className="text-xs text-muted-foreground">Running Processes</div>
-                </div>
-                <div>
-                  <div className="text-lg font-bold">{systemInfo.platform}</div>
-                  <div className="text-xs text-muted-foreground">Platform</div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <AnimatedStat
+              value={systemInfo.cpu_count}
+              label="CPU Cores"
+              icon="💻"
+              color="#ffffff"
+              delay={0.1}
+            />
+            <AnimatedStat
+              value={`${Math.round(systemInfo.memory_available / 1024 / 1024 / 1024)}GB`}
+              label="Available RAM"
+              icon="🧠"
+              color="#cccccc"
+              delay={0.2}
+            />
+            <AnimatedStat
+              value={systemInfo.running_processes}
+              label="Running Processes"
+              icon="⚙️"
+              color="#999999"
+              delay={0.3}
+            />
+            <AnimatedStat
+              value={systemInfo.platform}
+              label="Platform"
+              icon="🖥️"
+              color="#ffffff"
+              delay={0.4}
+            />
+          </div>
         )}
 
         {/* Scan Controls */}
-        <Card className="border-primary/20 bg-card/50 backdrop-blur">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Scan className="h-5 w-5" />
-              System Scanner
-            </CardTitle>
-            <CardDescription>
-              Scan your system for ransomware threats and suspicious files
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex gap-2">
-              <Button 
-                onClick={() => startScan('quick')} 
-                disabled={loading || scanStatus.status === 'scanning'}
-                className="flex items-center gap-2"
-              >
-                {loading || scanStatus.status === 'scanning' ? (
-                  <RefreshCw className="h-4 w-4 animate-spin" />
-                ) : (
-                  <Play className="h-4 w-4" />
-                )}
-                Quick Scan
-              </Button>
-              <Button 
-                onClick={() => startScan('full')} 
-                disabled={loading || scanStatus.status === 'scanning'}
-                variant="outline"
-                className="flex items-center gap-2"
-              >
-                <Scan className="h-4 w-4" />
-                Full Scan
-              </Button>
-              {scanStatus.status === 'scanning' && (
-                <Button 
-                  onClick={stopScan} 
-                  variant="destructive"
-                  className="flex items-center gap-2"
+        <PremiumCard3D delay={0.5}>
+          <NeonCard glowColor="blue" className="p-0">
+            <CardHeader className="border-b border-white/30 bg-gradient-to-br from-white/5 to-transparent">
+              <CardTitle className="flex items-center gap-3 text-3xl"
+                         style={{ 
+                           color: '#ffffff',
+                         }}>
+                <Scan className="h-8 w-8" 
+                      style={{ filter: 'drop-shadow(0 0 10px rgba(255, 255, 255, 0.8))' }} />
+                SYSTEM SCANNER
+              </CardTitle>
+              <CardDescription className="text-white text-lg">
+                Scan your system for ransomware threats and suspicious files
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6 p-8">
+              <div className="flex gap-4 flex-wrap justify-center">
+                <GlowButton
+                  onClick={() => startScan('quick')}
+                  disabled={loading || scanStatus.status === 'scanning'}
+                  variant="primary"
+                  className="flex items-center gap-3 px-8 py-4 text-white font-bold rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-500 text-lg"
+                  style={{
+                    background: 'linear-gradient(135deg, #ffffff, #cccccc)',
+                    boxShadow: '0 0 20px rgba(255, 255, 255, 0.5), 0 0 40px rgba(255, 255, 255, 0.3)',
+                    border: '2px solid rgba(255, 255, 255, 0.5)',
+                  }}
                 >
-                  <Square className="h-4 w-4" />
-                  Stop Scan
-                </Button>
-              )}
-            </div>
-          </CardContent>
-        </Card>
+                  {loading || scanStatus.status === 'scanning' ? (
+                    <RefreshCw className="h-6 w-6 animate-spin" 
+                               style={{ filter: 'drop-shadow(0 0 5px rgba(255, 255, 255, 0.8))' }} />
+                  ) : (
+                    <Play className="h-6 w-6" />
+                  )}
+                  QUICK SCAN
+                </GlowButton>
+                <GlowButton
+                  onClick={() => startScan('full')}
+                  disabled={loading || scanStatus.status === 'scanning'}
+                  variant="secondary"
+                  className="flex items-center gap-3 px-8 py-4 font-bold rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-500 text-lg"
+                  style={{
+                    background: 'transparent',
+                    color: '#ffffff',
+                    boxShadow: '0 0 20px rgba(255, 255, 255, 0.5), 0 0 40px rgba(255, 255, 255, 0.3)',
+                    border: '2px solid rgba(255, 255, 255, 0.5)',
+                  }}
+                >
+                  <Scan className="h-6 w-6" />
+                  FULL SCAN
+                </GlowButton>
+                {scanStatus.status === 'scanning' && (
+                  <GlowButton
+                    onClick={stopScan}
+                    variant="danger"
+                    className="flex items-center gap-3 px-8 py-4 font-bold rounded-xl transition-all duration-500 text-lg"
+                    style={{
+                      background: 'linear-gradient(135deg, #ff0000, #ff0055)',
+                      color: '#ffffff',
+                      boxShadow: '0 0 20px rgba(255, 0, 0, 0.5), 0 0 40px rgba(255, 0, 0, 0.3)',
+                      border: '2px solid rgba(255, 0, 0, 0.5)',
+                    }}
+                  >
+                    <Square className="h-6 w-6" />
+                    STOP SCAN
+                  </GlowButton>
+                )}
+              </div>
+            </CardContent>
+          </NeonCard>
+        </PremiumCard3D>
 
         {/* Scan Progress */}
         {scanStatus.status === 'scanning' && (
@@ -613,9 +903,9 @@ export const RansomwareDetection = () => {
         )}
 
         {scanStatus.status === 'completed' && scanStatus.threats_found === 0 && (
-          <Alert className="border-green-500 bg-green-500/10">
-            <CheckCircle className="h-4 w-4 text-green-500" />
-            <AlertTitle className="text-green-500">System Clean</AlertTitle>
+          <Alert className="border-white bg-white/10">
+            <CheckCircle className="h-4 w-4 text-white" />
+            <AlertTitle className="text-white">System Clean</AlertTitle>
             <AlertDescription>
               No ransomware threats detected. Your system appears to be safe.
               <div className="text-xs mt-2 opacity-80">
@@ -652,37 +942,37 @@ export const RansomwareDetection = () => {
           {/* Overview Tab */}
           <TabsContent value="overview" className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Card className="border-primary/20 bg-card/50 backdrop-blur">
+              <Card className="border-primary/20 backdrop-blur" style={{ background: 'rgba(0, 255, 0, 0.15)' }}>
                 <CardHeader>
-                  <CardTitle className="text-primary">Dataset Overview</CardTitle>
-                  <CardDescription>Ransomware detection dataset statistics</CardDescription>
+                  <CardTitle className="text-white">Dataset Overview</CardTitle>
+                  <CardDescription className="text-white">Ransomware detection dataset statistics</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <div className="text-2xl font-bold">10,000</div>
-                      <div className="text-sm text-muted-foreground">Total samples</div>
+                      <div className="text-2xl font-bold text-white">10,000</div>
+                      <div className="text-sm text-white">Total samples</div>
                     </div>
                     <div>
-                      <div className="text-2xl font-bold">95</div>
-                      <div className="text-sm text-muted-foreground">Features</div>
+                      <div className="text-2xl font-bold text-white">95</div>
+                      <div className="text-sm text-white">Features</div>
                     </div>
                     <div>
-                      <div className="text-2xl font-bold text-destructive">3,200</div>
-                      <div className="text-sm text-muted-foreground">Ransomware</div>
+                      <div className="text-2xl font-bold text-white">3,200</div>
+                      <div className="text-sm text-white">Ransomware</div>
                     </div>
                     <div>
-                      <div className="text-2xl font-bold text-success">6,800</div>
-                      <div className="text-sm text-muted-foreground">Benign</div>
+                      <div className="text-2xl font-bold text-white">6,800</div>
+                      <div className="text-sm text-white">Benign</div>
                     </div>
                   </div>
                 </CardContent>
               </Card>
 
-              <Card className="border-primary/20 bg-card/50 backdrop-blur">
+              <Card className="border-primary/20 backdrop-blur" style={{ background: 'rgba(0, 255, 0, 0.15)' }}>
                 <CardHeader>
-                  <CardTitle className="text-primary">Best Model Performance</CardTitle>
-                  <CardDescription>XGBoost classifier results</CardDescription>
+                  <CardTitle className="text-white">Best Model Performance</CardTitle>
+                  <CardDescription className="text-white">XGBoost classifier results</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-2 gap-4">
@@ -728,7 +1018,7 @@ export const RansomwareDetection = () => {
                           }`}
                           onClick={() => setSelectedThreatLevel(selectedThreatLevel === 'critical' ? null : 'critical')}
                         >
-                          <div className="text-2xl font-bold text-destructive">{scanStatus.threat_breakdown.critical}</div>
+                          <div className="text-2xl font-bold text-white">{scanStatus.threat_breakdown.critical}</div>
                           <div className="text-sm text-muted-foreground">Critical</div>
                         </button>
                         <button 
@@ -737,7 +1027,7 @@ export const RansomwareDetection = () => {
                           }`}
                           onClick={() => setSelectedThreatLevel(selectedThreatLevel === 'high' ? null : 'high')}
                         >
-                          <div className="text-2xl font-bold text-orange-500">{scanStatus.threat_breakdown.high}</div>
+                          <div className="text-2xl font-bold text-white">{scanStatus.threat_breakdown.high}</div>
                           <div className="text-sm text-muted-foreground">High</div>
                         </button>
                         <button 
@@ -746,16 +1036,16 @@ export const RansomwareDetection = () => {
                           }`}
                           onClick={() => setSelectedThreatLevel(selectedThreatLevel === 'medium' ? null : 'medium')}
                         >
-                          <div className="text-2xl font-bold text-yellow-500">{scanStatus.threat_breakdown.medium}</div>
+                          <div className="text-2xl font-bold text-white">{scanStatus.threat_breakdown.medium}</div>
                           <div className="text-sm text-muted-foreground">Medium</div>
                         </button>
                         <button 
-                          className={`text-center p-4 bg-green-500/10 rounded-lg border-2 transition-all hover:bg-green-500/20 ${
-                            selectedThreatLevel === 'low' ? 'border-green-500 ring-2 ring-green-500/50' : 'border-transparent'
+                          className={`text-center p-4 bg-white/10 rounded-lg border-2 transition-all hover:bg-white/20 ${
+                            selectedThreatLevel === 'low' ? 'border-white ring-2 ring-white/50' : 'border-transparent'
                           }`}
                           onClick={() => setSelectedThreatLevel(selectedThreatLevel === 'low' ? null : 'low')}
                         >
-                          <div className="text-2xl font-bold text-green-500">{scanStatus.threat_breakdown.low}</div>
+                          <div className="text-2xl font-bold text-white">{scanStatus.threat_breakdown.low}</div>
                           <div className="text-sm text-muted-foreground">Low</div>
                         </button>
                       </div>
@@ -803,7 +1093,7 @@ export const RansomwareDetection = () => {
                             result.threat_level === 'critical' ? 'border-destructive bg-destructive/5 hover:bg-destructive/10' :
                             result.threat_level === 'high' ? 'border-orange-500 bg-orange-500/5 hover:bg-orange-500/10' :
                             result.threat_level === 'medium' ? 'border-yellow-500 bg-yellow-500/5 hover:bg-yellow-500/10' :
-                            'border-green-500 bg-green-500/5 hover:bg-green-500/10'
+                            'border-white bg-white/5 hover:bg-white/10'
                           }`}>
                             <div className="flex justify-between items-start">
                               <div className="flex-1 min-w-0">
@@ -854,7 +1144,7 @@ export const RansomwareDetection = () => {
                       </div>
                     ) : (
                       <div className="text-center py-8">
-                        <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
+                        <CheckCircle className="h-16 w-16 text-white mx-auto mb-4" />
                         <h3 className="text-lg font-semibold mb-2">No Threats Detected</h3>
                         <p className="text-muted-foreground">Your system scan completed successfully with no threats found.</p>
                       </div>
@@ -988,7 +1278,7 @@ export const RansomwareDetection = () => {
                       <div className="flex items-center gap-3">
                         {prediction.prediction === 'Ransomware' 
                           ? <AlertTriangle className="h-6 w-6 text-destructive" />
-                          : <CheckCircle className="h-6 w-6 text-success" />
+                          : <CheckCircle className="h-6 w-6 text-white" />
                         }
                         <div>
                           <div className="text-lg font-bold">
