@@ -13,9 +13,9 @@ export const NeonCard = ({ children, className = '', glowColor = 'cyan' }: NeonC
   const colors = {
     cyan: { rgb: '0, 255, 255', hsl: '180, 100%, 50%' },
     magenta: { rgb: '255, 0, 255', hsl: '300, 100%, 50%' },
-    green: { rgb: '255, 255, 255', hsl: '0, 0%, 100%' }, // Changed to white
-    blue: { rgb: '0, 157, 255', hsl: '204, 100%, 50%' },
-    white: { rgb: '255, 255, 255', hsl: '0, 0%, 100%' },
+    green: { rgb: '34, 197, 94', hsl: '142, 71%, 45%' },
+    blue: { rgb: '34, 197, 94', hsl: '142, 71%, 45%' },
+    white: { rgb: '34, 197, 94', hsl: '142, 71%, 45%' },
   };
 
   const color = colors[glowColor];
@@ -23,20 +23,6 @@ export const NeonCard = ({ children, className = '', glowColor = 'cyan' }: NeonC
   useEffect(() => {
     const card = cardRef.current;
     if (!card) return;
-
-    // Pulse animation
-    gsap.to(card, {
-      boxShadow: `
-        0 0 20px rgba(${color.rgb}, 0.3),
-        0 0 40px rgba(${color.rgb}, 0.2),
-        0 0 60px rgba(${color.rgb}, 0.1),
-        inset 0 0 20px rgba(${color.rgb}, 0.05)
-      `,
-      duration: 2,
-      repeat: -1,
-      yoyo: true,
-      ease: 'sine.inOut',
-    });
 
     // Hover effect
     const handleMouseMove = (e: MouseEvent) => {
@@ -70,11 +56,7 @@ export const NeonCard = ({ children, className = '', glowColor = 'cyan' }: NeonC
           ),
           rgba(13, 13, 13, 0.8)
         `,
-        boxShadow: `
-          0 0 20px rgba(${color.rgb}, 0.2),
-          0 0 40px rgba(${color.rgb}, 0.1),
-          inset 0 0 20px rgba(${color.rgb}, 0.05)
-        `,
+        boxShadow: 'none',
       }}
     >
       {/* Corner accents */}

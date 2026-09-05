@@ -27,10 +27,10 @@ export const CyberGrid = () => {
         const alpha = 0.1 + Math.sin(time + x * 0.01) * 0.05;
         const glow = Math.sin(time * 2 + x * 0.02) * 10;
         
-        ctx.strokeStyle = `rgba(255, 255, 255, ${alpha})`;
+        ctx.strokeStyle = `rgba(80, 255, 130, ${alpha})`;
         ctx.lineWidth = 1;
         ctx.shadowBlur = glow;
-        ctx.shadowColor = 'rgba(255, 255, 255, 0.5)';
+        ctx.shadowColor = 'rgba(40, 255, 100, 0.5)';
         
         ctx.beginPath();
         ctx.moveTo(x, 0);
@@ -43,7 +43,7 @@ export const CyberGrid = () => {
         const alpha = 0.1 + Math.sin(time + y * 0.01) * 0.05;
         const glow = Math.sin(time * 2 + y * 0.02) * 10;
         
-        ctx.strokeStyle = `rgba(255, 255, 255, ${alpha})`;
+        ctx.strokeStyle = `rgba(40, 220, 100, ${alpha})`;
         ctx.lineWidth = 1;
         ctx.shadowBlur = glow;
         ctx.shadowColor = 'rgba(0, 165, 28, 0.5)';
@@ -64,9 +64,9 @@ export const CyberGrid = () => {
           const pulse = Math.sin(time * 3 - distance * 0.01) * 0.5 + 0.5;
           
           if (pulse > 0.7) {
-            ctx.fillStyle = `rgba(255, 255, 255, ${pulse * 0.5})`;
+            ctx.fillStyle = `rgba(100, 255, 150, ${pulse * 0.5})`;
             ctx.shadowBlur = 15;
-            ctx.shadowColor = 'rgba(255, 255, 255, 0.8)';
+            ctx.shadowColor = 'rgba(80, 255, 130, 0.8)';
             ctx.beginPath();
             ctx.arc(x, y, 3, 0, Math.PI * 2);
             ctx.fill();

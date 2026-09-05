@@ -128,7 +128,7 @@ export const PremiumCard3D = ({ children, className = '', delay = 0 }: PremiumCa
         {/* Glow effect */}
         <div
           ref={glowRef}
-          className="absolute w-48 h-48 rounded-full blur-3xl opacity-0 pointer-events-none"
+          className="hidden"
           style={{
             background: 'radial-gradient(circle, rgba(255, 255, 255, 0.3), transparent)',
             transform: 'translateZ(-10px)',
@@ -138,7 +138,7 @@ export const PremiumCard3D = ({ children, className = '', delay = 0 }: PremiumCa
         {/* Overlay gradient */}
         <div
           ref={overlayRef}
-          className="absolute inset-0 rounded-xl opacity-0 pointer-events-none"
+          className="hidden"
           style={{
             background: 'radial-gradient(circle, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 50%)',
             transform: 'translateZ(1px)',
@@ -152,7 +152,7 @@ export const PremiumCard3D = ({ children, className = '', delay = 0 }: PremiumCa
 
         {/* Shine effect */}
         <div
-          className="absolute inset-0 rounded-xl opacity-0 hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+          className="hidden"
           style={{
             background: 'linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.05) 40%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.05) 60%, transparent 100%)',
             backgroundSize: '200% 200%',

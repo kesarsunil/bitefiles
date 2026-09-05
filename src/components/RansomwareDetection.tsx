@@ -685,13 +685,12 @@ export const RansomwareDetection = () => {
               }}
               className="relative"
             >
-              <div className="absolute inset-0 bg-white/40 rounded-full blur-3xl" 
+              <div className="hidden" 
                    style={{ 
                      boxShadow: '0 0 60px rgba(255, 255, 255, 0.6), 0 0 100px rgba(255, 255, 255, 0.4)',
                      animation: 'neonPulse 2s ease-in-out infinite'
                    }} />
-              <Shield ref={shieldRef} className="h-16 w-16 text-white relative z-10" 
-                     style={{ filter: 'drop-shadow(0 0 10px rgba(255, 255, 255, 0.8))' }} />
+              <Shield ref={shieldRef} className="h-16 w-16 text-white relative z-10" />
             </motion.div>
             <GlitchText className="text-6xl font-bold tracking-tight">
               <h1 className="text-white">
@@ -777,14 +776,13 @@ export const RansomwareDetection = () => {
 
         {/* Scan Controls */}
         <PremiumCard3D delay={0.5}>
-          <NeonCard glowColor="blue" className="p-0">
-            <CardHeader className="border-b border-white/30 bg-gradient-to-br from-white/5 to-transparent">
+          <NeonCard glowColor="green" className="p-0">
+            <CardHeader className="border-b border-green-900/60 bg-transparent">
               <CardTitle className="flex items-center gap-3 text-3xl"
                          style={{ 
                            color: '#ffffff',
                          }}>
-                <Scan className="h-8 w-8" 
-                      style={{ filter: 'drop-shadow(0 0 10px rgba(255, 255, 255, 0.8))' }} />
+                    <Scan className="h-8 w-8" />
                 SYSTEM SCANNER
               </CardTitle>
               <CardDescription className="text-white text-lg">
@@ -799,9 +797,9 @@ export const RansomwareDetection = () => {
                   variant="primary"
                   className="flex items-center gap-3 px-8 py-4 text-white font-bold rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-500 text-lg"
                   style={{
-                    background: 'linear-gradient(135deg, #ffffff, #cccccc)',
-                    boxShadow: '0 0 20px rgba(255, 255, 255, 0.5), 0 0 40px rgba(255, 255, 255, 0.3)',
-                    border: '2px solid rgba(255, 255, 255, 0.5)',
+                    background: '#166534',
+                    boxShadow: 'none',
+                    border: '1px solid rgba(74, 222, 128, 0.45)',
                   }}
                 >
                   {loading || scanStatus.status === 'scanning' ? (
@@ -820,8 +818,8 @@ export const RansomwareDetection = () => {
                   style={{
                     background: 'transparent',
                     color: '#ffffff',
-                    boxShadow: '0 0 20px rgba(255, 255, 255, 0.5), 0 0 40px rgba(255, 255, 255, 0.3)',
-                    border: '2px solid rgba(255, 255, 255, 0.5)',
+                    boxShadow: 'none',
+                    border: '1px solid rgba(74, 222, 128, 0.45)',
                   }}
                 >
                   <Scan className="h-6 w-6" />

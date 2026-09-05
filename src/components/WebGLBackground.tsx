@@ -77,22 +77,24 @@ export const WebGLBackground = () => {
         float n1 = fbm(p + time * 0.08);
         float n2 = fbm(p * 1.5 - time * 0.1);
         
-        // Black and White color palette
-        vec3 pureBlack = vec3(0.0, 0.0, 0.0); // #000000
-        vec3 darkGray = vec3(0.05, 0.05, 0.05);
-        vec3 white = vec3(1.0, 1.0, 1.0); // #ffffff
-        vec3 lightGray = vec3(0.8, 0.8, 0.8); // #cccccc
+        // Deep green cyberpunk palette for the background only
+        vec3 deepGreen = vec3(0.005, 0.06, 0.025);
+        vec3 darkGreen = vec3(0.01, 0.16, 0.06);
+        vec3 neonGreen = vec3(0.25, 1.0, 0.35);
+        vec3 mintGreen = vec3(0.45, 1.0, 0.7);
+        vec3 neonCyan = vec3(0.05, 0.85, 0.2);
+        vec3 neonBlue = vec3(0.1, 0.65, 0.18);
         
-        // Mix colors based on noise - mostly black with white energy
-        vec3 baseColor = mix(pureBlack, darkGray, n1 * 0.3);
+        // Mix colors based on noise - mostly deep green with neon energy
+        vec3 baseColor = mix(deepGreen, darkGreen, n1 * 0.45);
         
         // Add white energy streams
-        float whiteStreams = smoothstep(0.6, 0.8, n1) * 0.25;
-        baseColor = mix(baseColor, white, whiteStreams);
+        float greenStreams = smoothstep(0.6, 0.8, n1) * 0.25;
+        baseColor = mix(baseColor, neonGreen, greenStreams);
         
         // Add gray highlights
-        float grayHighlights = smoothstep(0.7, 0.9, n2) * 0.15;
-        baseColor = mix(baseColor, lightGray, grayHighlights);
+        float greenHighlights = smoothstep(0.7, 0.9, n2) * 0.15;
+        baseColor = mix(baseColor, mintGreen, greenHighlights);
         
         // Add vertical scan lines
         float scanline = sin(uv.y * resolution.y * 2.0) * 0.02;

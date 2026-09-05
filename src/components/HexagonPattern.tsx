@@ -24,7 +24,7 @@ export const HexagonPattern = () => {
 
       // Random glow
       gsap.to(hex, {
-        filter: `drop-shadow(0 0 ${Math.random() * 20 + 5}px rgba(255, 255, 255, 0.6))`,
+        filter: `drop-shadow(0 0 ${Math.random() * 12 + 3}px rgba(40, 220, 80, 0.35))`,
         duration: Math.random() * 2 + 1,
         repeat: -1,
         yoyo: true,
@@ -57,8 +57,8 @@ export const HexagonPattern = () => {
         >
           <defs>
             <linearGradient id={`hexGrad${i}`} x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" style={{ stopColor: '#ffffff', stopOpacity: 0.3 }} />
-              <stop offset="100%" style={{ stopColor: '#cccccc', stopOpacity: 0.3 }} />
+              <stop offset="0%" style={{ stopColor: '#166534', stopOpacity: 0.25 }} />
+              <stop offset="100%" style={{ stopColor: '#14532d', stopOpacity: 0.25 }} />
             </linearGradient>
           </defs>
           <polygon

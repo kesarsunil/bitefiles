@@ -16,8 +16,8 @@ export const GlowButton = ({
   const glowRef = useRef<HTMLDivElement>(null);
 
   const colors = {
-    primary: '#3b82f6',
-    secondary: '#8b5cf6',
+    primary: '#166534',
+    secondary: '#166534',
     danger: '#ef4444',
   };
 
@@ -87,7 +87,7 @@ export const GlowButton = ({
     >
       <div
         ref={glowRef}
-        className="absolute w-24 h-24 rounded-full blur-xl pointer-events-none"
+        className="hidden"
         style={{
           backgroundColor: colors[variant],
           opacity: 0.4,

@@ -25,8 +25,8 @@ export const MatrixRain = () => {
     const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
 
     const draw = () => {
-      // Semi-transparent black background for trail effect
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      // Preserve green trails without painting a black layer over the wall
+      ctx.fillStyle = 'rgba(0, 35, 12, 0.05)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       ctx.font = `${fontSize}px monospace`;
@@ -40,13 +40,13 @@ export const MatrixRain = () => {
         // Glow effect for leading characters
         if (Math.random() > 0.95) {
           ctx.shadowBlur = 10;
-          ctx.shadowColor = 'rgba(255, 255, 255, 0.8)';
+          ctx.shadowColor = 'rgba(60, 255, 120, 0.8)';
         } else {
           ctx.shadowBlur = 0;
         }
 
-        // Pure white/gray colors - Monochrome style
-        ctx.fillStyle = `rgba(${Math.floor(255 * brightness)}, ${Math.floor(255 * brightness)}, ${Math.floor(255 * brightness)}, ${brightness})`;
+        // Green digital rain for the background layer
+        ctx.fillStyle = `rgba(${Math.floor(70 * brightness)}, ${Math.floor(255 * brightness)}, ${Math.floor(115 * brightness)}, ${brightness})`;
         ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 
         // Reset drop randomly

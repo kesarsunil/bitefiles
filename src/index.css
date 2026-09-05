@@ -8,8 +8,8 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Pure Black and White Theme */
-    --background: 0 0% 0%; /* Pure black #000000 */
+    /* Cyberpunk green background with the existing light UI preserved */
+    --background: 145 55% 6%;
     --foreground: 0 0% 100%; /* White text #ffffff */
 
     --card: 0 0% 5%; /* Very dark gray #0d0d0d */

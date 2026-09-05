@@ -26,8 +26,8 @@ export const Scanlines = () => {
         style={{
           background: `repeating-linear-gradient(
             0deg,
-            rgba(255, 255, 255, 0.03) 0px,
-            rgba(255, 255, 255, 0.03) 1px,
+            rgba(40, 180, 70, 0.035) 0px,
+            rgba(40, 180, 70, 0.035) 1px,
             transparent 1px,
             transparent 2px
           )`,
