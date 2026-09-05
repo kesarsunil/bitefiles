@@ -3,7 +3,7 @@ Ransomware Detection Backend API
 A Flask-based REST API that provides ransomware detection capabilities using machine learning.
 """
 
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import pandas as pd
 import numpy as np
@@ -25,7 +25,10 @@ from scanner import RansomwareScanner
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-app = Flask(__name__)
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+DIST_DIR = PROJECT_ROOT / 'dist'
+
+app = Flask(__name__, static_folder=None)
 CORS(app)  # Enable CORS for React frontend
 
 # Global variables for models and scanner
@@ -47,6 +50,23 @@ scan_results = {
     'last_scan': None,
     'scan_report': None
 }
+
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def serve_frontend(path):
+    """Serve the Vite app and fall back to index.html for client-side routes."""
+    if path.startswith('api/'):
+        return jsonify({'error': 'API endpoint not found'}), 404
+
+    requested_file = DIST_DIR / path
+    if path and requested_file.is_file():
+        return send_from_directory(DIST_DIR, path)
+
+    index_file = DIST_DIR / 'index.html'
+    if index_file.is_file():
+        return send_from_directory(DIST_DIR, 'index.html')
+
+    return jsonify({'error': 'Frontend build not found'}), 404
 
 def load_models():
     """Load pre-trained models and scaler"""
