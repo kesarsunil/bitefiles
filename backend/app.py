@@ -429,19 +429,26 @@ def get_models_info():
         'scaler_loaded': scaler is not None
     })
 
-if __name__ == '__main__':
-    logger.info("Starting Ransomware Detection Backend...")
-    
-    # Load models on startup
+def initialize_backend():
+    """Load models and initialize the scanner for every server entry point."""
+    logger.info("Initializing Ransomware Detection Backend...")
     if load_models():
-        # Initialize scanner
         initialize_scanner()
-        
-        logger.info("Starting Flask server...")
+        logger.info("Backend initialized successfully")
+        return True
+
+    logger.error("Failed to load models")
+    return False
+
+
+# Gunicorn imports `app` instead of executing this module as __main__.
+initialize_backend()
+
+if __name__ == '__main__':
+    logger.info("Starting Flask server...")
+    if best_model is not None and scaler is not None:
         app.run(
             debug=os.environ.get('FLASK_DEBUG', '0') == '1',
             host='0.0.0.0',
             port=int(os.environ.get('PORT', '5000'))
         )
-    else:
-        logger.error("Failed to load models. Exiting.")
