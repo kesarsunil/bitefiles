@@ -637,8 +637,13 @@ export const RansomwareDetection = () => {
   const folderInputRef = useRef<HTMLInputElement>(null);
 
   const openFolderPicker = () => {
-    folderInputRef.current?.setAttribute('webkitdirectory', '');
-    folderInputRef.current?.click();
+    const folderInput = folderInputRef.current;
+    if (!folderInput) return;
+
+    // Ask the browser for the complete selected folder, including subfolders.
+    folderInput.setAttribute('webkitdirectory', '');
+    folderInput.setAttribute('directory', '');
+    folderInput.click();
   };
 
   const scanSelectedFolder = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -654,7 +659,10 @@ export const RansomwareDetection = () => {
     try {
       setLoading(true);
       const formData = new FormData();
-      Array.from(selectedFiles).forEach(file => formData.append('files', file, file.name));
+      // FileList contains every file in the selected folder and its subfolders.
+      Array.from(selectedFiles).forEach(file => {
+        formData.append('files', file, file.name);
+      });
 
       const response = await fetch(`${API_BASE_URL}/scan/upload`, {
         method: 'POST',
@@ -826,7 +834,7 @@ export const RansomwareDetection = () => {
                 SYSTEM SCANNER
               </CardTitle>
               <CardDescription className="text-white text-lg">
-                Scan your system for ransomware threats and suspicious files
+                Choose a folder to scan all files, including subfolders
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6 p-8">
