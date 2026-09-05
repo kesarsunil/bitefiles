@@ -1,20 +1,10 @@
 services:
   - type: web
-    name: byte-sentinel-api
+    name: byte-sentinel
     runtime: python
-    rootDir: backend
-    buildCommand: pip install -r ../requirements.txt
-    startCommand: gunicorn --bind 0.0.0.0:$PORT app:app
+    buildCommand: pip install -r requirements.txt && npm ci && npm run build
+    startCommand: cd backend && gunicorn --bind 0.0.0.0:$PORT app:app
     healthCheckPath: /api/health
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.9
-
-  - type: web
-    name: byte-sentinel-web
-    runtime: static
-    buildCommand: npm ci && npm run build
-    staticPublishPath: ./dist
-    envVars:
-      - key: VITE_API_BASE_URL
-        value: https://byte-sentinel-api.onrender.com/api

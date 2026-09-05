@@ -41,14 +41,15 @@ A comprehensive ransomware detection system using machine learning to analyze sy
 
    ## Deploy to Render
 
-   This repository includes `render.yaml` for deploying the Flask API and Vite frontend as separate Render services.
+   This repository includes `render.yaml` for deploying the Flask API and Vite frontend together as one Render web service.
 
    1. Push the repository to GitHub or GitLab.
    2. In Render, choose **New > Blueprint** and select the repository.
-   3. Render will create the `byte-sentinel-api` web service and `byte-sentinel-web` static site.
-   4. The API trains fallback models on its first boot because model artifacts are not committed.
+   3. Render will create the `byte-sentinel` web service.
+   4. The service builds the Vite frontend, then Flask serves both the frontend and `/api` endpoints.
+   5. The API trains fallback models on its first boot because model artifacts are not committed.
 
-   The frontend build uses `VITE_API_BASE_URL` from `render.yaml`. If Render assigns a different API hostname, update that environment variable on the static site and trigger a new deploy.
+   The frontend uses same-origin `/api` requests, so no frontend API URL setting is required.
 
 ## Usage
 

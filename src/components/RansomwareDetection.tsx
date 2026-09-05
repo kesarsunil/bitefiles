@@ -23,7 +23,7 @@ import { GlitchText } from "./GlitchText";
 import { NeonCard } from "./NeonCard";
 
 // Backend API configuration
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
 
 // Types for API responses
 interface PredictionResult {
@@ -357,7 +357,7 @@ export const RansomwareDetection = () => {
 
   // Poll scan status when scanning
   useEffect(() => {
-    let interval: NodeJS.Timeout;
+    let interval: ReturnType<typeof setInterval> | undefined;
     if (scanStatus.status === 'scanning') {
       interval = setInterval(checkScanStatus, 2000);
     }
