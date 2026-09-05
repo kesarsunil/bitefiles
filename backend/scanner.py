@@ -5,6 +5,7 @@ Analyzes files and system behavior to detect ransomware indicators.
 
 import os
 import hashlib
+import math
 import mimetypes
 import time
 import psutil
@@ -63,7 +64,7 @@ class RansomwareScanner:
             for x in range(256):
                 p_x = float(data.count(bytes([x]))) / len(data)
                 if p_x > 0:
-                    entropy += - p_x * (p_x).bit_length()
+                    entropy += -p_x * math.log2(p_x)
             
             return entropy
             
@@ -288,7 +289,7 @@ class RansomwareScanner:
             features['digital_signature'] = 0
             
             # Try to extract PE-specific features if it's an executable
-            if file_path.lower().endswith(('.exe', '.dll', '.scr', '.com')):
+            if str(file_path).lower().endswith(('.exe', '.dll', '.scr', '.com')):
                 try:
                     # This would require pefile library for full implementation
                     # For now, using heuristics

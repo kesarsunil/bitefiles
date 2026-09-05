@@ -4,6 +4,7 @@ A Flask-based REST API that provides ransomware detection capabilities using mac
 """
 
 from flask import Flask, request, jsonify, send_from_directory
+from werkzeug.utils import secure_filename
 from flask_cors import CORS
 import pandas as pd
 import numpy as np
@@ -359,6 +360,71 @@ def start_scan():
     except Exception as e:
         logger.error(f"Error starting scan: {str(e)}")
         return jsonify({'error': str(e)}), 500
+
+@app.route('/api/scan/upload', methods=['POST'])
+def scan_uploaded_files():
+    """Scan files explicitly selected by the user in the browser."""
+    global scanner, scan_results
+
+    if not scanner:
+        initialize_scanner()
+
+    uploaded_files = request.files.getlist('files')
+    if not uploaded_files:
+        return jsonify({'error': 'Select a folder or files to scan'}), 400
+
+    scan_results.update({
+        'status': 'scanning',
+        'progress': 0,
+        'total_files': 0,
+        'scanned_files': 0,
+        'threats_found': 0,
+        'results': [],
+        'last_scan': datetime.now().isoformat(),
+        'scan_report': None,
+    })
+    scanner.scan_results = []
+    scanner.scan_stats = {
+        'files_scanned': 0,
+        'threats_detected': 0,
+        'suspicious_files': 0,
+        'encrypted_files': 0,
+        'scan_start_time': datetime.now().isoformat(),
+        'scan_end_time': None,
+    }
+
+    import tempfile
+    from pathlib import Path
+
+    try:
+        with tempfile.TemporaryDirectory(prefix='byte-sentinel-scan-') as temp_dir:
+            results = []
+            for uploaded_file in uploaded_files:
+                safe_name = secure_filename(Path(uploaded_file.filename or 'uploaded-file').name)
+                if not safe_name:
+                    continue
+
+                file_path = Path(temp_dir) / safe_name
+                uploaded_file.save(file_path)
+                results.append(scanner.scan_file(file_path))
+
+            report_data = {
+                'file_scan_results': results,
+                'process_threats': [],
+                'scan_statistics': scanner.scan_stats,
+            }
+            scan_results['results'] = results
+            scan_results['total_files'] = len(results)
+            scan_results['scanned_files'] = len(results)
+            scan_results['threats_found'] = scanner.scan_stats['threats_detected']
+            scan_results['scan_report'] = scanner.generate_scan_report(report_data)
+    except Exception as error:
+        logger.error(f"Error scanning uploaded files: {error}")
+        scan_results['error'] = str(error)
+
+    scan_results['status'] = 'completed'
+    scan_results['progress'] = 100
+    return jsonify(scan_results)
 
 @app.route('/api/scan/status', methods=['GET'])
 def get_scan_status():

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, type ChangeEvent } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -634,6 +634,46 @@ export const RansomwareDetection = () => {
 
   const headerRef = useRef<HTMLDivElement>(null);
   const shieldRef = useRef<SVGSVGElement>(null);
+  const folderInputRef = useRef<HTMLInputElement>(null);
+
+  const openFolderPicker = () => {
+    folderInputRef.current?.setAttribute('webkitdirectory', '');
+    folderInputRef.current?.click();
+  };
+
+  const scanSelectedFolder = async (event: ChangeEvent<HTMLInputElement>) => {
+    const selectedFiles = event.target.files;
+    if (!selectedFiles?.length) return;
+
+    if (!backendConnected) {
+      window.alert('The backend is offline. Start the scan again after the backend is connected.');
+      event.target.value = '';
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const formData = new FormData();
+      Array.from(selectedFiles).forEach(file => formData.append('files', file, file.name));
+
+      const response = await fetch(`${API_BASE_URL}/scan/upload`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error('The selected files could not be scanned.');
+      }
+
+      setScanStatus(await response.json());
+    } catch (error) {
+      console.error('Failed to scan selected folder:', error);
+      window.alert('The selected folder could not be scanned. Check the backend logs.');
+    } finally {
+      setLoading(false);
+      event.target.value = '';
+    }
+  };
 
   useEffect(() => {
     if (shieldRef.current) {
@@ -791,8 +831,16 @@ export const RansomwareDetection = () => {
             </CardHeader>
             <CardContent className="space-y-6 p-8">
               <div className="flex gap-4 flex-wrap justify-center">
+                <input
+                  ref={folderInputRef}
+                  type="file"
+                  multiple
+                  onChange={scanSelectedFolder}
+                  className="hidden"
+                  aria-label="Choose a folder to scan"
+                />
                 <GlowButton
-                  onClick={() => startScan('quick')}
+                  onClick={openFolderPicker}
                   disabled={loading || scanStatus.status === 'scanning'}
                   variant="primary"
                   className="flex items-center gap-3 px-8 py-4 text-white font-bold rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-500 text-lg"
@@ -811,7 +859,7 @@ export const RansomwareDetection = () => {
                   QUICK SCAN
                 </GlowButton>
                 <GlowButton
-                  onClick={() => startScan('full')}
+                  onClick={openFolderPicker}
                   disabled={loading || scanStatus.status === 'scanning'}
                   variant="secondary"
                   className="flex items-center gap-3 px-8 py-4 font-bold rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-500 text-lg"
